@@ -24,3 +24,6 @@
 
 # rbenv gemsets file
 .rbenv-gemsets
+
+# Secret envs
+.envrc

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get '/logout', to: 'sessions#destroy'
+
   resources :events
   resources :users
   # The priority is based upon order of creation: first created -> highest priority.
