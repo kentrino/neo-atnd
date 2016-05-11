@@ -51,6 +51,9 @@ group :development, :test do
   gem 'rubocop'
   # Watch revise
   gem 'guard-rubocop'
+  # Rspec
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
 end
 
 group :development do
