@@ -2,6 +2,9 @@
 
 class EventsController < ApplicationController
   def index
+    # avoid taking user records
+    @events = Event.unscoped.all
+    render(css: true)
   end
 
   def create
@@ -14,6 +17,9 @@ class EventsController < ApplicationController
   end
 
   def show
+    event_id = params[:id]
+    @event = Event.find_by(id: event_id)
+    render(css: true)
   end
 
   def update

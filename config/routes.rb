@@ -1,9 +1,23 @@
 Rails.application.routes.draw do
+  # twitter callback
   get 'auth/:provider/callback', to: 'sessions#create'
+
+  # Logout
   get '/logout', to: 'sessions#destroy'
 
-  resources :events
+  # attend / absent to event
+  post 'events/:id/attend', to: 'event_users#create', as: :attend_event
+  post 'events/:id/absent', to: 'event_users#absent', as: :absent_event
+
+  # event list
+  get 'events', to: 'events#index', as: :events
+
+  resources :events, except: :index
   resources :users
+
+  # for debug
+  get 'session/:user_id', to: 'sessions#change'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

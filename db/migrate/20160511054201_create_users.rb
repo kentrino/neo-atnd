@@ -14,7 +14,6 @@ class CreateUsers < ActiveRecord::Migration
 
       t.timestamps null: false
 
-
       t.index [:provider, :uid]
     end
   end

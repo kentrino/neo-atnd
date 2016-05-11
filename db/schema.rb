@@ -30,10 +30,12 @@ ActiveRecord::Schema.define(version: 20160511054912) do
     t.string   "location",    limit: 255
     t.integer  "owner_id",    limit: 4
     t.text     "description", limit: 65535
+    t.time     "hold_at"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
 
+  add_index "events", ["hold_at"], name: "index_events_on_hold_at", using: :btree
   add_index "events", ["owner_id"], name: "index_events_on_owner_id", using: :btree
 
   create_table "users", force: :cascade do |t|
