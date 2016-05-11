@@ -40,3 +40,9 @@ FrozenStringLiteralComment:
   Enabled: true
   Exclude:
     - 'test/**/*'
+
+# 代入、メソッド呼び出し、条件文の複雑さ
+Metrics/AbcSize:
+  # The ABC size is a calculated magnitude, so this number can be a Fixnum or
+  # a Float.
+  Max: 20
