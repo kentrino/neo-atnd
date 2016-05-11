@@ -41,6 +41,7 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
+    SeedFu.quiet = true
     SeedFu.seed
   end
 

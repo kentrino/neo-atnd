@@ -6,4 +6,8 @@ module EventsHelper
       link_to u.name, user_path(u)
     end.join(' ').html_safe
   end
+
+  def edit_action
+    controller.action_name == 'edit'
+  end
 end

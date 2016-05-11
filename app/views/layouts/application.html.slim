@@ -11,4 +11,6 @@ body
   = render 'shared/menu'
   div#mainContainer
     div#main
+      - flash.each do |key, value|
+        = content_tag :div, value, class: key
       = yield

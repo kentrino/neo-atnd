@@ -14,12 +14,19 @@ RSpec.describe Event, type: :model do
     context 'users(id: 1..4) present' do
       it 'should return true' do
         event.attend?(user[1]).should eq true
+        event.attend?(user[2]).should eq true
+        event.attend?(user[3]).should eq true
+        event.attend?(user[4]).should eq true
       end
     end
 
-    context 'users(id: 5..9) are not present' do
+    context 'users(id: 5..9) are absent' do
       it 'should return true' do
         event.attend?(user[5]).should eq false
+        event.attend?(user[6]).should eq false
+        event.attend?(user[7]).should eq false
+        event.attend?(user[8]).should eq false
+        event.attend?(user[9]).should eq false
       end
     end
 

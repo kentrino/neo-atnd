@@ -1,6 +1,8 @@
 table#mainTable {
   width: 80%;
   margin: 20px;
+  table-layout: fixed;
+  word-wrap: break-word;
 }
 
 table#detail {
@@ -9,4 +11,10 @@ table#detail {
 
 h1, h2, div.container{
   margin: 20px;
+}
+
+#form {
+  dt, dd{
+    margin: 10px;
+  }
 }

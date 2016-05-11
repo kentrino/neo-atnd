@@ -1,0 +1,20 @@
+- if edit_action
+  h1 Edit Event!
+- else
+  h1 New Event!
+
+= form_for(@event) do |f|
+  dl#form(class='dl-horizontal')
+    dt = f.label :title
+    dd = f.text_field :title
+    dt = f.label :capacity
+    dd = f.text_field :capacity
+    dt = f.label :owner
+    dd = f.text_field :owner
+    dt = f.label :description
+    dd = f.text_area :description
+    dt Submit
+    - if edit_action
+      dd = f.submit 'Update Event', class: 'btn btn-large btn-primary'
+    - else
+      dd = f.submit 'Create event', class: 'btn btn-large btn-primary'

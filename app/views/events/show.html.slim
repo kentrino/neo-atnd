@@ -1,9 +1,10 @@
 h1 Event Detail
 div.container
-  - if !@event.attend?(current_user)
-    = link_to 'Attend', attend_event_path(@event), method: :post, params: {enable: :post}
-  - else
-    = link_to 'Absent', absent_event_path(@event), method: :post, params: {enable: :post}
+  - if logged_in?
+    - if !@event.attend?(current_user)
+      = link_to 'Attend', attend_event_path(@event), method: :post, params: {enable: :post}
+    - else
+      = link_to 'Absent', absent_event_path(@event), method: :post, params: {enable: :post}
 
 - if @event.owner?(current_user)
   h2 For event owners

@@ -6,14 +6,11 @@ class Event < ActiveRecord::Base
   has_many :event_users
   has_many :_users, source: :user, through: :event_users
 
-  default_scope -> { includes(:_users).order('created_at ASC') }
+  default_scope -> { includes(:_users) }
 
-  def owner
-    user.name
-  end
 
   def owner?(current_user)
-    user.id == current_user.id
+    !user.nil? && !current_user.nil? && user.id == current_user.id
   end
 
   def users_called?
@@ -42,7 +39,8 @@ class Event < ActiveRecord::Base
 
   # returns whether current user will ATTEND AND BE PRESENT AT the event or not
   def attend?(current_user)
-    return false if users.blank?
+    return false if current_user.blank? || users.blank?
+
     @users_hash ||= Hash[*users.pluck(:id).zip(users).flatten]
     !@users_hash[current_user.id].nil? && !@users_hash[current_user.id].absent
   end
