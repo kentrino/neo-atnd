@@ -6,6 +6,9 @@ class CreateEventUsers < ActiveRecord::Migration
       t.boolean :absent
 
       t.timestamps null: false
+
+      t.index :attendee_user_id
+      t.index :event_id
     end
   end
 end

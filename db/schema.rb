@@ -21,6 +21,9 @@ ActiveRecord::Schema.define(version: 20160511054912) do
     t.datetime "updated_at",                 null: false
   end
 
+  add_index "event_users", ["attendee_user_id"], name: "index_event_users_on_attendee_user_id", using: :btree
+  add_index "event_users", ["event_id"], name: "index_event_users_on_event_id", using: :btree
+
   create_table "events", force: :cascade do |t|
     t.string   "title",       limit: 255
     t.integer  "capacity",    limit: 4
@@ -30,6 +33,8 @@ ActiveRecord::Schema.define(version: 20160511054912) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
+
+  add_index "events", ["owner_id"], name: "index_events_on_owner_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",            limit: 255
@@ -43,5 +48,7 @@ ActiveRecord::Schema.define(version: 20160511054912) do
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
   end
+
+  add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid", using: :btree
 
 end

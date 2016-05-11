@@ -13,6 +13,9 @@ class CreateUsers < ActiveRecord::Migration
       t.string :access_token_secret
 
       t.timestamps null: false
+
+
+      t.index [:provider, :uid]
     end
   end
 end

@@ -8,6 +8,8 @@ class CreateEvents < ActiveRecord::Migration
       t.text :description
 
       t.timestamps null: false
+
+      t.index :owner_id
     end
   end
 end
