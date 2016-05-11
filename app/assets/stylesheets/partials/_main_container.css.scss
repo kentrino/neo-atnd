@@ -1,0 +1,19 @@
+html, body {
+  height: 100%;
+}
+
+#mainContainer {
+  height: 100%;
+  #main {
+    margin: 0 auto;
+    margin-top: 50px;
+
+    padding-top: 10px;
+
+    width: 960px;
+    min-height: 100%;
+
+    border: solid 0px $gray;
+    border-width: 0 1px 0 1px;
+  }
+}
