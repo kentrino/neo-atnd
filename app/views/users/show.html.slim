@@ -1,0 +1,11 @@
+h1 User Status
+dl.dl-horizontal
+  dt Name
+  dd = @user.name
+  dt NickName
+  dd = @user.nickname
+  dt Description
+  dd = @user.description
+  dt Image
+  dd
+    = image_tag @user.image, :alt => 'gazo'
