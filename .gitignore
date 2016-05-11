@@ -21,3 +21,6 @@
 
 # Memo file
 .memo
+
+# rbenv gemsets file
+.rbenv-gemsets
