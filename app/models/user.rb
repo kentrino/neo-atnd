@@ -15,8 +15,8 @@ class User < ActiveRecord::Base
       user.image = auth[:info][:image]
       user.description = auth[:info][:description]
 
-      user.access_token = auth[:credentials][:token]
-      user.access_token_secret = auth[:credentials][:secret]
+      user.token = auth[:credentials][:token]
+      user.secret = auth[:credentials][:secret]
     end
   end
 

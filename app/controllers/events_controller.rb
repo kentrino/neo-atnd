@@ -55,11 +55,9 @@ class EventsController < ApplicationController
   def authenticate_owner!
     authenticate_user!
 
-    event = prepare_event
+    return if @event.owner_id == current_user.id
 
-    unless event.owner_id == current_user.id
-      redirect_to event_path(event)
-    end
+    redirect_to event_path(@event)
   end
 
   def event_params
@@ -76,9 +74,11 @@ class EventsController < ApplicationController
   def prepare_event
     event_id = params[:id]
     @event ||= Event.find_by(id: event_id)
-    if @event.nil?
-      flash[:alert] = 'Event not found'
-      redirect_to events_path
-    end
+
+    return unless @event.nil?
+
+    @event.nil?
+    flash[:alert] = 'Event not found'
+    redirect_to events_path
   end
 end

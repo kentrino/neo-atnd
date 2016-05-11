@@ -56,7 +56,11 @@ group :development, :test do
   gem 'guard-rubocop'
   # Rspec
   gem 'rspec-rails'
+  # Factory kit
   gem 'factory_girl_rails'
+  # E2E test tools
+  gem 'capybara'
+  gem 'poltergeist'
 end
 
 group :development do

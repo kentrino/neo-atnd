@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # twitter callback
   get 'auth/:provider/callback', to: 'sessions#create'
+  get 'auth/failure', to: 'sessions#failure'
 
   # Logout
   get '/logout', to: 'sessions#destroy'

@@ -8,7 +8,6 @@ class Event < ActiveRecord::Base
 
   default_scope -> { includes(:_users) }
 
-
   def owner?(current_user)
     !user.nil? && !current_user.nil? && user.id == current_user.id
   end

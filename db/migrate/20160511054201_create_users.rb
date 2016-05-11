@@ -9,8 +9,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :image
       t.text :description
 
-      t.string :access_token
-      t.string :access_token_secret
+      t.string :token
+      t.string :secret
 
       t.timestamps null: false
 

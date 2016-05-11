@@ -12,6 +12,11 @@ class SessionsController < ApplicationController
     redirect_to events_path
   end
 
+  def failure
+    flash[:alert] = 'login failure'
+    redirect_to controller: :events, action: :index
+  end
+
   def change
     session[:user_id] = params[:user_id] if ENV['DEBUG'] == 'true'
 

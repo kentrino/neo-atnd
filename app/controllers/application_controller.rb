@@ -24,10 +24,9 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate_user!
-    unless logged_in?
-      flash[:alert] = 'Please login first.'
-      redirect_to events_path
-      return
-    end
+    return if logged_in?
+
+    flash[:alert] = 'Please login first.'
+    redirect_to events_path
   end
 end

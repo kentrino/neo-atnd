@@ -41,8 +41,8 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
-    SeedFu.quiet = true
-    SeedFu.seed
+    #SeedFu.quiet = true
+    #SeedFu.seed
   end
 
 # The settings below are suggested to provide a good initial experience
@@ -94,4 +94,24 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+end
+
+def login!(user)
+  OmniAuth.config.mock_auth[:twitter] =
+    OmniAuth::AuthHash.new({
+                             provider: 'twitter',
+                             uid: user.uid,
+                             info: {
+                               name: user.name,
+                               nickname: user.nickname,
+                               image: user.image,
+                               description: user.description
+                             },
+                             credentials: {
+                               token: user.token,
+                               secret: user.secret
+                             }
+                           })
+  visit user_path id: user.id
+  click_link 'log-in with Twitter'
 end
