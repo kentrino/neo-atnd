@@ -78,7 +78,7 @@ RSpec.describe '/events', type: :feature do
       end
     end
 
-    # ログイン状態
+    # オーナーログイン状態
     context 'logged-in' do
       before do
         login! event.user
