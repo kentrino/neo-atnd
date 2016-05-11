@@ -34,3 +34,8 @@ Style/StringLiterals:
 LineLength:
   Max: 120
 
+# テストにはFrozen string literalは必要ない
+FrozenStringLiteralComment:
+  Enabled: true
+  Exclude:
+    - 'test/**/*'
