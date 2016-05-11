@@ -19,4 +19,7 @@ class User < ActiveRecord::Base
       user.access_token_secret = auth[:credentials][:secret]
     end
   end
+
+  # Enable absent attribute
+  attr_accessor :absent
 end

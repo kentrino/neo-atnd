@@ -10,7 +10,7 @@ User.seed do |u|
   u.description = 'First user'
 end
 
-2.upto(9) do |i|
+2.upto(20) do |i|
   User.seed do |u|
     u.id = i
 
