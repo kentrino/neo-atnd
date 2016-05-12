@@ -6,6 +6,6 @@ class UsersController < ApplicationController
 
     return unless @user.nil?
 
-    redirect_to events_path
+    redirect_to events_path, alert: 'User does not exist.'
   end
 end
