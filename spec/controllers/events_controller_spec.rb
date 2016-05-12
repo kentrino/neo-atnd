@@ -10,23 +10,8 @@ def event_params(event)
   }
 end
 
-using NoLogin
-
 RSpec.describe EventsController, type: :controller do
   render_views
-
-  controller do
-    def authenticate_user!
-    end
-
-    def _authenticate_owner
-      render json: { return_value: authenticate_owner!}
-    end
-
-    def authenticate_owner
-      authenticate_owner!
-    end
-  end
 
   let(:event) do
     create :event
@@ -131,28 +116,7 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
+  # TODO:
   describe 'authenticate_owner!' do
-    before do
-      login! users[1]
-
-      @routes.draw do
-        get '/events/_authenticate_owner'
-        get '/events/authenticate_owner'
-      end
-    end
-
-    context 'invalid authentication' do
-      it 'returns false' do
-        ApplicationController.any_instance.stub(:authenticate_user!).and_return true
-
-        Event.any_instance.stub(:owner_id).and_return 0
-
-        get :_authenticate_owner, id: 1
-
-        return_value = JSON.parse(response.body, symbolize_names: true)[:return_value]
-
-        return_value.should eq false
-      end
-    end
   end
 end
