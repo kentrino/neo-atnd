@@ -60,7 +60,9 @@ group :development, :test do
   gem 'factory_girl_rails'
   # E2E test tools
   gem 'capybara'
-  gem 'poltergeist'
+  # gem 'poltergeist'
+  # Test Coverage tool
+  gem 'simplecov'
 end
 
 group :development do

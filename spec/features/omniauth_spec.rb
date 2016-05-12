@@ -89,6 +89,7 @@ RSpec.describe '/auth', type: :feature do
       # ログアウトもちゃんとできる
       context 'exec log-out' do
         before do
+          logout
           click_link 'log-out'
         end
 

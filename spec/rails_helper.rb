@@ -5,7 +5,19 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
-require 'capybara/poltergeist'
+
+# Capybara settings
+Capybara.default_selector = :css
+
+if ENV['USE_POLTERGEIST']
+  require 'capybara/poltergeist'
+  Capybara.default_driver = :poltergeist
+
+  Capybara.app_host = "http://localhost:3001"
+  Capybara.server_host = "localhost"
+  Capybara.server_port = "3001"
+  Capybara.ignore_hidden_elements = true
+end
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
@@ -31,17 +43,6 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  Capybara.default_selector = :css
-
-  if ENV['USE_POLTERGEIST']
-    Capybara.default_driver = :poltergeist
-
-    Capybara.app_host = "http://localhost:3001"
-    Capybara.server_host = "localhost"
-    Capybara.server_port = "3001"
-    Capybara.ignore_hidden_elements = true
-  end
-
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

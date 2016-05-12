@@ -27,3 +27,6 @@
 
 # Secret envs
 .envrc
+
+# coverage data
+coverage/
