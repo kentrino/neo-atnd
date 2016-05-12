@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
   end
 
   def change
-    session[:user_id] = params[:user_id] if ENV['DEBUG'] == 'true'
+    session[:user_id] = params[:user_id] if ENV['APP_DEBUG'] == 'true'
 
     render nothing: true
   end

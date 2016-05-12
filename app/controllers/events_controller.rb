@@ -2,7 +2,7 @@
 
 class EventsController < ApplicationController
   before_action :prepare_event, except: [:create, :index, :new]
-  before_action :authenticate_user!, only: [:create]
+  before_action :authenticate_user!, only: [:create, :new, :edit, :update, :destroy]
   before_action :authenticate_owner!, only: [:edit, :update, :destroy]
 
   def index
@@ -53,9 +53,7 @@ class EventsController < ApplicationController
   private
 
   def authenticate_owner!
-    authenticate_user!
-
-    return if @event.owner_id == current_user.id
+    return if !current_user.nil? && @event.owner_id == current_user.id
 
     redirect_to event_path(@event)
   end

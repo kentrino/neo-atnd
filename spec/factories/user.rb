@@ -1,4 +1,6 @@
-USER_COUNT = User.count
+# Error occurs when rake db:seed_fu
+# USER_COUNT = User.count
+USER_COUNT = 20
 
 FactoryGirl.define do
   factory :user do

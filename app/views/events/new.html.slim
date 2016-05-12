@@ -9,12 +9,14 @@
     dd = f.text_field :title
     dt = f.label :capacity
     dd = f.text_field :capacity
+    dt = f.label :location
+    dd = f.text_field :location
     dt = f.label :owner
     dd = f.text_field :owner
     dt = f.label :description
     dd = f.text_area :description
     dt Submit
     - if edit_action
-      dd = f.submit 'Update Event', class: 'btn btn-large btn-primary'
+      dd = button_tag 'Update Event', class: 'btn btn-large btn-primary'
     - else
-      dd = f.submit 'Create event', class: 'btn btn-large btn-primary'
+      dd = button_tag 'Create event'

@@ -8,7 +8,7 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :owner
       t.text :description
 
-      t.time :hold_at
+      t.timestamp :hold_at
 
       t.timestamps null: false
 

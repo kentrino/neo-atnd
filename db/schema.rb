@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20160511054912) do
     t.integer  "owner_id",    limit: 4
     t.integer  "owner",       limit: 4
     t.text     "description", limit: 65535
-    t.time     "hold_at"
+    t.datetime "hold_at"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end

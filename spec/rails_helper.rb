@@ -5,6 +5,10 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
+require 'capybara/poltergeist'
+
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -27,6 +31,17 @@ require 'rspec/rails'
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
+  Capybara.default_selector = :css
+
+  if ENV['USE_POLTERGEIST']
+    Capybara.default_driver = :poltergeist
+
+    Capybara.app_host = "http://localhost:3001"
+    Capybara.server_host = "localhost"
+    Capybara.server_port = "3001"
+    Capybara.ignore_hidden_elements = true
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -55,9 +70,13 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
+
   # Factory girl
   config.include FactoryGirl::Syntax::Methods
 
   # enable omniauth test
   OmniAuth.config.test_mode = true
 end
+
+# Avoid concurrent problem with webdriver test
+ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection

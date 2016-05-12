@@ -16,6 +16,7 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -97,21 +98,6 @@ RSpec.configure do |config|
 end
 
 def login!(user)
-  OmniAuth.config.mock_auth[:twitter] =
-    OmniAuth::AuthHash.new({
-                             provider: 'twitter',
-                             uid: user.uid,
-                             info: {
-                               name: user.name,
-                               nickname: user.nickname,
-                               image: user.image,
-                               description: user.description
-                             },
-                             credentials: {
-                               token: user.token,
-                               secret: user.secret
-                             }
-                           })
-  visit user_path id: user.id
-  click_link 'log-in with Twitter'
+  ApplicationController.any_instance.stub(:current_user).and_return(user)
+  ApplicationController.any_instance.stub(:logged_in?).and_return(true)
 end
