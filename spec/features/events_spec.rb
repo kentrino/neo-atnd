@@ -2,7 +2,6 @@ require "rails_helper"
 
 RSpec.describe '/events', type: :feature do
   subject { page }
-
   # イベンツ
   describe '/events' do
     let!(:events) { create_list :event, 3 }
@@ -59,25 +58,23 @@ RSpec.describe '/events', type: :feature do
       it { should_not have_link('Edit', edit_event_path(event)) }
       it { should_not have_link('Destroy', event_path(event)) }
       it { should_not have_link('Absent', absent_event_path(event)) }
-      it { should_not have_link('Atend', atend_event_path(event)) }
+      it { should_not have_link('Attend', attend_event_path(event)) }
 
       # 参加者一覧
       # 参加者二名と不参加者に二名の十全なリストがある
-      describe 'atendee' do
-        let!(:atended) { create_list :atendee, 2, event: event }
-        let!(:absented) { create_list :atendee, 2, event: event, status: 'absented' }
+      describe 'attendee' do
+        let!(:attended) { create_list :attendee, 2, event: event }
+        let!(:absent) { create_list :attendee, 2, event: event, absent: true } # status: 'absented'
 
         before do
           visit event_path event
         end
-
-        it { should have_content atended.first.user.name }
-        it { should have_content atended.last.user.name }
-        it { should have_content absented.first.user.name }
-        it { should have_content absented.last.user.name }
+        it { should have_content attended.first.user.name }
+        it { should have_content attended.last.user.name }
+        it { should have_content absent.first.user.name }
+        it { should have_content absent.last.user.name }
       end
     end
-
     # オーナーログイン状態
     context 'logged-in' do
       before do
@@ -116,12 +113,12 @@ RSpec.describe '/events', type: :feature do
 
         # 不参加の場合
         context 'not attend' do
-          it { should have_link('Atend', atend_event_path(event)) }
+          it { should have_link('Attend', attend_event_path(event)) }
 
           context 'click Attend' do
             # 参加をおすと
             before do
-              click_link('Atend')
+              click_link('Attend')
             end
 
             # イベントパスに移動し
@@ -145,7 +142,7 @@ RSpec.describe '/events', type: :feature do
               context 'click Attend again' do
                 before do
                   # 再び出席をおすと
-                  click_link('Atend')
+                  click_link('Attend')
                 end
 
                 #
@@ -159,7 +156,7 @@ RSpec.describe '/events', type: :feature do
 
         # すでに参加しているイベントは
         context 'already attended' do
-          let!(:atended) { create :atendee, event: event, user: event.user }
+          let!(:attended) { create :attendee, event: event, user: event.user }
 
           before do
             # イベントパスに移動し
@@ -203,7 +200,8 @@ RSpec.describe '/events', type: :feature do
         fill_in 'event_location', with: 'test location'
         fill_in 'event_owner', with: 'test owner'
         fill_in 'event_description', with: 'test description'
-        click_button 'Create Event'
+        find('#form > dd:nth-child(12) > button').click
+        #click_button 'Create Event'
       end
 
       it { current_path.should eq event_path(Event.last) }
