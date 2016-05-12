@@ -29,23 +29,18 @@ class Event < ActiveRecord::Base
   end
 
   def attendees
-    users.select { |u| !u.absent }
+    users.select { |u| attend?(u) }
   end
 
   def absentees
-    users.select(&:absent)
+    users.select { |u| !attend?(u) }
   end
 
   # returns whether current user will ATTEND AND BE PRESENT AT the event or not
-  def attend?(current_user)
-    return false if current_user.blank? || users.blank?
+  def attend?(user)
+    return false if user.blank? || users.blank?
 
     @users_hash ||= Hash[*users.pluck(:id).zip(users).flatten]
-    !@users_hash[current_user.id].nil? && !@users_hash[current_user.id].absent
-  end
-
-  private
-
-  def prepare_user_hash
+    !@users_hash[user.id].nil? && !@users_hash[user.id].absent
   end
 end

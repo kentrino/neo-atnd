@@ -16,17 +16,10 @@ class ApplicationController < ActionController::Base
     !session[:user_id].nil?
   end
 
-  def authenticate
-    return if logged_in?
-    redirect_to events_path, alert: 'Please log-in'
-  end
-
   private
 
   def authenticate_user!
     return if logged_in?
-
-    flash[:alert] = 'Please login first.'
-    redirect_to events_path
+    redirect_to events_path, alert: 'Please login first.'
   end
 end

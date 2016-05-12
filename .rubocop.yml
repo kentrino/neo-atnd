@@ -54,3 +54,9 @@ Metrics/AbcSize:
 # クラス変数は利用可能にする
 Style/ClassVars:
  Enabled: false
+
+# テストでは後方参照されない変数わりあてを認める
+Lint/UselessAssignment:
+ Exclude:
+   - 'test/**/*'
+   - 'spec/**/*'
