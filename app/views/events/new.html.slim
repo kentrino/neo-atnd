@@ -17,6 +17,6 @@
     dd = f.text_area :description
     dt Submit
     - if edit_action
-      dd = button_tag 'Update Event', class: 'btn btn-large btn-primary'
+      dd = button_tag 'Update Event', class: 'btn btn-large btn-primary', id: 'updateButton'
     - else
-      dd = button_tag 'Create event'
+      dd = button_tag 'Create event', class: 'btn btn-large btn-primary', id: 'createButton'

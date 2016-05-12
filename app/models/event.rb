@@ -6,6 +6,8 @@ class Event < ActiveRecord::Base
   has_many :event_users
   has_many :_users, source: :user, through: :event_users
 
+  validates :title, length: { maximum: 255 }
+
   default_scope -> { includes(:_users) }
 
   def owner?(current_user)

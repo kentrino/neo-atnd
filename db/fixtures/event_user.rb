@@ -1,4 +1,6 @@
-1.upto(9) do |user_id|
+require('./db/seed_max')
+
+1.upto(EVENT_USER_MAX) do |user_id|
   EventUser.seed do |e|
     # shuffle user id for testing
     e.id = user_id

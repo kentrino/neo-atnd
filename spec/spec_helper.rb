@@ -18,7 +18,13 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
 require 'simplecov'
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  SimpleCov.command_name "MiniTest #{Time.now}"
+
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Models', 'app/models'
+  add_group 'Helpers', 'app/helpers'
+end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -50,6 +56,8 @@ RSpec.configure do |config|
     #SeedFu.quiet = true
     #SeedFu.seed
   end
+
+  # config.infer_base_class_for_anonymous_controllers = true
 
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
@@ -100,14 +108,4 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
-end
-
-def login!(user)
-  ApplicationController.any_instance.stub(:current_user).and_return(user)
-  ApplicationController.any_instance.stub(:logged_in?).and_return(true)
-end
-
-def logout
-  ApplicationController.any_instance.stub(:current_user).and_return(nil)
-  ApplicationController.any_instance.stub(:logged_in?).and_return(false)
 end

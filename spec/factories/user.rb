@@ -1,11 +1,9 @@
-# Error occurs when rake db:seed_fu
-# USER_COUNT = User.count
-USER_COUNT = 20
+require('./db/seed_max')
 
 FactoryGirl.define do
   factory :user do
-    sequence(:id) { |n| n + USER_COUNT }
-    sequence(:uid) { |n| n + USER_COUNT }
+    sequence(:id) { |n| n + USER_MAX }
+    sequence(:uid) { |n| n + USER_MAX }
     name 'hoge'
     nickname 'hige'
     image 'fuga'

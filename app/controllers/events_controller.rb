@@ -37,7 +37,8 @@ class EventsController < ApplicationController
     if @event.update_attributes(event_params)
       redirect_to event_path(@event)
     else
-      render :new, css: true
+      flash.now[:alert] = 'Validation failed.'
+      render :new, css: true, alert: 'Validation failed.'
     end
   end
 
@@ -47,6 +48,7 @@ class EventsController < ApplicationController
       redirect_to events_path
     else
       flash[:alert] = 'Event Delete Failed.'
+      redirect_to event_path @event
     end
   end
 
@@ -75,7 +77,6 @@ class EventsController < ApplicationController
 
     return unless @event.nil?
 
-    @event.nil?
     flash[:alert] = 'Event not found'
     redirect_to events_path
   end
