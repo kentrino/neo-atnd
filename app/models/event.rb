@@ -7,6 +7,10 @@ class Event < ActiveRecord::Base
   has_many :_users, source: :user, through: :event_users
 
   validates :title, length: { maximum: 255 }
+  validates :capacity, numericality: :only_integer
+  validates :location, length: { maximum: 255 }
+  validates :owner, length: { maximum: 255 }
+  validates :description, length: { maximum: 2000 }
 
   default_scope -> { includes(:_users) }
 
