@@ -57,7 +57,7 @@ RSpec.describe EventsController, type: :controller do
         mock_event = event
         post :create, event: event_params(mock_event)
         auto_incremented_id = mock_event.id + 1
-        response.should redirect_to event_path({id: auto_incremented_id})
+        response.should redirect_to event_path(id: auto_incremented_id)
       end
     end
 
@@ -116,7 +116,51 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
-  # TODO:
   describe 'authenticate_owner!' do
+    let(:owner_id) { 1 }
+    let(:invalid_owner_id) { 2 }
+
+    let(:event) { create :event, owner_id: owner_id }
+
+    controller do
+      def show; end
+    end
+
+    before do
+      controller.class.before_filter :authenticate_owner!
+    end
+
+    after do
+      controller.class.skip_before_filter :authenticate_owner!
+    end
+
+    context 'invalid owener id' do
+      it 'returns' do
+        session[:user_id] = invalid_owner_id
+        get :show, id: event.id
+        response.should redirect_to event_path(event)
+      end
+    end
+
+    context 'valid owener id' do
+      it 'returns' do
+        session[:user_id] = owner_id
+        get :show, id: event.id
+        response.status.should eq 200
+      end
+    end
+  end
+
+  describe 'prepare_event' do
+    controller do
+      def show; end
+    end
+    context 'invalid event id' do
+      it 'returns' do
+        invalid_event_id = 0
+        get :show, id: invalid_event_id
+        response.should redirect_to events_path
+      end
+    end
   end
 end

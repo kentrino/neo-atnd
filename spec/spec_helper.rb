@@ -19,8 +19,6 @@
 
 require 'simplecov'
 SimpleCov.start 'rails' do
-  SimpleCov.command_name "MiniTest #{Time.now}"
-
   add_group 'Controllers', 'app/controllers'
   add_group 'Models', 'app/models'
   add_group 'Helpers', 'app/helpers'
