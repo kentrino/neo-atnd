@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
 
   def failure
     flash[:alert] = 'login failure'
-    redirect_to controller: :events, action: :index
+    redirect_to events_path
   end
 
   def change

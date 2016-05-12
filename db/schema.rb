@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20160511054912) do
     t.integer  "capacity",    limit: 4
     t.string   "location",    limit: 255
     t.integer  "owner_id",    limit: 4
-    t.integer  "owner",       limit: 4
+    t.string   "owner",       limit: 255
     t.text     "description", limit: 65535
     t.datetime "hold_at"
     t.datetime "created_at",                null: false

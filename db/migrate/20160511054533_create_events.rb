@@ -5,7 +5,7 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :capacity
       t.string :location
       t.integer :owner_id
-      t.integer :owner
+      t.string :owner
       t.text :description
 
       t.timestamp :hold_at
