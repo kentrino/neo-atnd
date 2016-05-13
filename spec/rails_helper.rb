@@ -9,6 +9,7 @@ require 'rspec/rails'
 # Capybara settings
 Capybara.default_selector = :css
 
+# Comment out `gem 'poltergeist' before enable`
 if ENV['USE_POLTERGEIST']
   require 'capybara/poltergeist'
   Capybara.default_driver = :poltergeist
