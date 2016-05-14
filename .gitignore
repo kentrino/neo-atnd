@@ -19,8 +19,8 @@
 # IntelliJ idea file
 .idea/
 
-# Memo file
-.memo
+# Memo files
+.memo/
 
 # rbenv gemsets file
 .rbenv-gemsets
