@@ -30,3 +30,8 @@
 
 # coverage data
 coverage/
+
+# docker file
+docker/nginx/*.conf
+!docker/nginx/docker.vh.conf
+!docker/nginx/docker.nginx.conf

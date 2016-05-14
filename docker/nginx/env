@@ -1,0 +1,3 @@
+# envs required to run this docker image
+APP_NAME
+SERVER_NAME

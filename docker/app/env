@@ -1,0 +1,4 @@
+# envs required to run this docker image
+DB_USERNAME
+DB_HOST
+DB_PASSWORD

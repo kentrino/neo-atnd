@@ -1,23 +1,36 @@
+<%
+if ENV['OS'] != 'Mac'
+  ENV['APP_NAME'] = '$app_name'
+  ENV['SERVER_NAME'] = '$host_server_name'
+end
+%>
+
 upstream <%= ENV['APP_NAME'] %> {
-  server unix:/tmp/unicorn.<%= ENV['APP_NAME'] %>.sock;
+  server unix:/volume/unicorn.<%= ENV['APP_NAME'] %>.sock;
   #  fail_timeout=0
 }
 
 server {
   listen 80;
-  server_name <%= ENV['SERVER_NAME'] %>;
+  server_name <%= ENV['APP_NAME'] %>;
 
   index index.html;
 
+  <% if docker %>
+  root /var/www/app/public;
+  <% else %>
   root <%= RAILS_ROOT %>/public;
+  <% end %>
 
   # production環境ではassetsが動かなくなる？
   location ^~ /assets/ {
     <% if ENV['RAILS_ENV'] == 'production' %>
-      root <%= RAILS_ROOT %>/public;
-      # alias <%= RAILS_ROOT %>/public/assets/$1;
+    root <%= RAILS_ROOT %>/public;
+    # alias <%= RAILS_ROOT %>/public/assets/$1;
+    <% elsif docker %>
+    root /var/www/app;
     <% else %>
-      proxy_pass http://<%= ENV['APP_NAME'] %>;
+    proxy_pass http://<%= ENV['APP_NAME'] %>;
     <% end %>
   }
 
@@ -56,7 +69,7 @@ server {
 
   # 静的ファイルをキャッシュする
   location ~ .*\.(html?|jpe?g|gif|png|css|js|ico|swf|inc) {
-    <% if ENV['RAILS_ENV'] == 'production' %>
+    <% if ENV['RAILS_ENV'] == 'production' || docker %>
     proxy_cache  <%= ENV['APP_NAME'] %>;
     proxy_cache_valid any 1h;
     <% end %>
@@ -67,10 +80,10 @@ server {
   }
 
   # ログ関連設定
-  access_log  /var/log/nginx/<%= ENV['APP_NAME'] %>.access.log  main;
-  error_log  /var/log/nginx/<%= ENV['APP_NAME'] %>.error.log  error;
+  access_log  /volume/<%= ENV['APP_NAME'] %>.access.log  main;
+  error_log  /volume/<%= ENV['APP_NAME'] %>.error.log  error;
 
-  <% if ENV['RAILS_ENV'] == 'production' %>
+  <% if ENV['RAILS_ENV'] == 'production' || docker %>
   # 403の場合404であるように見せる
   error_page  404  /404.html;
   error_page  403 =404  /404.html;

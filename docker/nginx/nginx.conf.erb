@@ -1,4 +1,11 @@
-<%= 'user nginx;' if ENV['OS'] == 'Linux' %>
+<%
+if docker
+  ENV['APP_NAME'] = '$app_name'
+  ENV['SERVER_NAME'] = '$host_server_name'
+end
+%>
+
+<%= 'user nginx;' if ENV['OS'] != 'Mac' || docker %>
 # コア数と同じだけworker processを起動する
 worker_processes auto;
 
@@ -11,7 +18,7 @@ events {
   multi_accept on;
 
   # TODO: デフォルトでオンになっている？
-  <% if ENV['OS'] == 'Linux' %>
+  <% if ENV['OS'] != 'Mac' || docker %>
   use epoll;
   <% else %>
   use kqueue;
@@ -22,7 +29,17 @@ events {
 # worker_connectionの3-4倍を指定するとよい
 worker_rlimit_nofile 15000;
 
+<% if ENV['OS'] != 'Mac' || docker %>
+env SERVER_NAME;
+env APP_NAME;
+<% end %>
+
 http {
+  <% if docker %>
+  perl_set $host_server_name 'sub { return $ENV{"SERVER_NAME"}; }';
+  perl_set $app_name 'sub { return $ENV{"APP_NAME"}; }';
+  <% end %>
+
   include     mime.types;
   default_type  application/octet-stream;
 
@@ -57,7 +74,7 @@ http {
   # limit_conn  addr  100;
 
   # Proxy cacheの設定
-  <% if ENV['RAILS_ENV'] == 'production' %>
+  <% if ENV['RAILS_ENV'] == 'production' || docker %>
   proxy_cache_path      /var/cache/nginx/<%= ENV['APP_NAME'] %> levels=1:2 keys_zone=<%= ENV['APP_NAME'] %>:100m inactive=7d max_size=1000m;
   proxy_temp_path  /var/cache/nginx/proxy_temp;
   <% end %>
@@ -84,6 +101,9 @@ http {
       '$status $body_bytes_sent "$http_referer" '
       '"$http_user_agent" "$http_x_forwarded_for"';
 
-
+  <% if docker %>
+  include vh.conf;
+  <% else %>
   include servers/*;
+  <% end %>
 }
