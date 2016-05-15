@@ -34,4 +34,3 @@ coverage/
 # submodules
 docker/nginx-base
 docker/nginx
-docker/app
