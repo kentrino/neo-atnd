@@ -39,4 +39,9 @@ RUN \
 
 WORKDIR /var/www/app
 
+# You have to add these variables
+#   DB_USERNAME
+#   DB_HOST
+#   DB_PASSWORD
+
 ENTRYPOINT ["bundle", "exec", "unicorn", "-c", "./config/unicorn.rb"]
