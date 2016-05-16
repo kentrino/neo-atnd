@@ -34,3 +34,6 @@ coverage/
 # submodules
 docker/nginx-base
 docker/nginx
+
+# assets
+public/assets/

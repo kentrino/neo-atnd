@@ -2,8 +2,6 @@ FROM ruby:2.3.1-alpine
 
 MAINTAINER Kento Haneda <kento@haneda.me>
 
-VOLUME /volume
-
 ENV BUILD_PACKAGES="ruby-dev build-base mysql-dev git" \
     PACKAGES="libxml2-dev zlib-dev linux-headers libxslt-dev tzdata nodejs" \
     RAILS_VERSION="4.2.6" \
@@ -26,6 +24,8 @@ RUN \
   gem install rails --version "$RAILS_VERSION" && \
   git clone https://github.com/kentrino/neo-atnd $RAILS_ROOT && \
   bundle install && \
+  cd /var/www/app && \
+  rake assets:precompile && \
 
   # cleanup mysql
   cp -L /usr/lib/libmysqlclient.so.18 ~/ && \
