@@ -4,14 +4,14 @@ APP_NAME = ENV['APP_NAME']
 rails_root = File.expand_path('../../', __FILE__)
 working_directory rails_root
 
-worker_processes 4
+worker_processes 1
 timeout 15
 
 # Suppress down time when reload
 preload_app true
 
-listen "/volume/unicorn.#{APP_NAME}.sock"
-pid "/tmp/unicorn.#{APP_NAME}.pid"
+listen File.expand_path('../../tmp/unicorn.sock', __FILE__)
+pid File.expand_path('../../tmp/unicorn.pid', __FILE__)
 
 before_fork do |server, worker|
   old_pid = "#{server.config[:pid]}.oldbin"
@@ -33,8 +33,8 @@ after_fork do |server, worker|
 end
 
 # Logs
-stderr_path File.expand_path('/volume/unicorn_stderr.log', __FILE__)
-stdout_path File.expand_path('/volume/unicorn_stdout.log', __FILE__)
+stderr_path File.expand_path('../../log/unicorn_stderr.log', __FILE__)
+stdout_path File.expand_path('../../log/unicorn_stdout.log', __FILE__)
 
 # Avoid bundle error Bundler::GemfileNotFound
 ENV['BUNDLE_GEMFILE'] = rails_root + '/Gemfile'
