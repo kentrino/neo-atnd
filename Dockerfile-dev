@@ -13,8 +13,8 @@ RUN addgroup nginx -g "$GROUP_ID" && \
     # log files
     # socket file will get 777 by unicorn
     # TODO: should be changed to 770?
-    chown app:nginx /var/www/app/log/nginx && \
-    chmod g+rwx /var/www/app/log/nginx && \
+    chown app:nginx /var/www/app/log/nginx /var/www/app/tmp && \
+    chmod g+rwx /var/www/app/log/nginx /var/www/app/tmp && \
 
     # public folder
     chown -R app:nginx /var/www/app/public && \

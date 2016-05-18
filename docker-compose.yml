@@ -1,14 +1,23 @@
-app:
-  image: knetrino/neo-atnd
-  volumes:
-    - /var/www/app
-  environment:
-    APP_NAME: neo-atnd
-    DB_HOST: "${DB_HOST}"
-    SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
-    DB_USERNAME: root
-nginx:
-  image: kentrino/nginx
-  volumes_from: app
-  ports:
-    - "80:80"
+version: '2'
+services:
+  app:
+    image: kentrino/neo-atnd
+    volumes:
+      # TODO: change directory
+      - volume:/var/www/app
+    environment:
+      APP_NAME: neo-atnd
+      SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
+      DB_HOST: "${DB_HOST}"
+      DB_USERNAME: "${DB_USERNAME}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+  nginx:
+    build:
+      context: ./docker/nginx
+    volumes_from:
+      - app
+    ports:
+      - "5000:80"
+volumes:
+  volume:
+    driver: local

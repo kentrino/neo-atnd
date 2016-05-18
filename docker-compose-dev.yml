@@ -14,10 +14,10 @@ services:
       # TODO: change directory
       - volume:/var/www/app
     environment:
-      DB_HOST: "${LOCAL_DB_HOST}"
       SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
-      DB_PASSWORD: "${LOCAL_DB_PASSWORD}"
+      DB_HOST: "${LOCAL_DB_HOST}"
       DB_USERNAME: "${LOCAL_DB_USERNAME}"
+      DB_PASSWORD: "${LOCAL_DB_PASSWORD}"
   nginx:
     build:
       context: ./docker/nginx

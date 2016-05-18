@@ -9,7 +9,8 @@ ENV BUILD_PACKAGES="ruby-dev build-base mysql-dev git" \
     BUNDLE_GEMFILE=/var/www/app/Gemfile \
     RAILS_ROOT=/var/www/app \
     GROUP_ID=55 \
-    USER_ID=1055
+    APP_USER_ID=1055 \
+    NGINX_USER_ID=1060
 
 RUN \
   mkdir /var/www && \
@@ -31,18 +32,23 @@ RUN \
 
   # security settings =====================================================
   addgroup nginx -g $GROUP_ID && \
-  adduser -D -H -G nginx -u $USER_ID app && \
+  adduser -D -H -G nginx -u $APP_USER_ID app && \
+  adduser -D -H -G nginx -u $NGINX_USER_ID nginx && \
   chown -R app:nginx /var/www/app && \
   chmod -R go-rwx /var/www/app && \
 
   # log files
   # socket file will get 777 by unicorn
   # TODO: socket file should be changed to 770?
-  chown app:nginx /var/www/app/log/nginx && \
-  chmod g+rwx /var/www/app/log/nginx && \
+  chown -R nginx:nginx /var/www/app/log/nginx && \
+  chmod -R u+rwx /var/www/app/log/nginx && \
+
+  # socket file
+  chown -R nginx:nginx /var/www/app/tmp && \
+  chmod -R ug+rwx /var/www/app/tmp && \
 
   # public folder
-  chown -R app:nginx /var/www/app/public && \
+  chown -R nginx:nginx /var/www/app/public && \
   chmod -R g+r /var/www/app/public && \
 
   # cleanup ===============================================================
