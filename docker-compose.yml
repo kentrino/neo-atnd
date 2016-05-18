@@ -1,0 +1,14 @@
+app:
+  image: knetrino/neo-atnd
+  volumes:
+    - /var/www/app
+  environment:
+    APP_NAME: neo-atnd
+    DB_HOST: "${DB_HOST}"
+    SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
+    DB_USERNAME: root
+nginx:
+  image: kentrino/nginx
+  volumes_from: app
+  ports:
+    - "80:80"

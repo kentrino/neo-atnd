@@ -1,0 +1,25 @@
+FROM kentrino/neo-atnd
+
+ADD . /var/www/app
+
+ARG GROUP_ID
+ARG USER_ID
+
+RUN addgroup nginx -g "$GROUP_ID" && \
+    adduser -D -H -G nginx -u $USER_ID app && \
+    chown -R app:nginx /var/www/app && \
+    chmod -R go-rwx /var/www/app && \
+
+    # log files
+    # socket file will get 777 by unicorn
+    # TODO: should be changed to 770?
+    chown app:nginx /var/www/app/log/nginx && \
+    chmod g+rwx /var/www/app/log/nginx && \
+
+    # public folder
+    chown -R app:nginx /var/www/app/public && \
+    chmod -R g+r /var/www/app/public
+
+USER app
+
+ENTRYPOINT ["bundle", "exec", "unicorn", "-c", "./config/unicorn.rb"]

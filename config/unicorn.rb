@@ -1,5 +1,3 @@
-APP_NAME = ENV['APP_NAME']
-
 # Restrict rake:unicorn command within RAILS_ROOT
 rails_root = File.expand_path('../../', __FILE__)
 working_directory rails_root
@@ -33,8 +31,8 @@ after_fork do |server, worker|
 end
 
 # Logs
-stderr_path File.expand_path('../../log/unicorn_stderr.log', __FILE__)
-stdout_path File.expand_path('../../log/unicorn_stdout.log', __FILE__)
+stderr_path File.expand_path('../../log/unicorn.error.log', __FILE__)
+stdout_path File.expand_path('../../log/unicorn.access.log', __FILE__)
 
 # Avoid bundle error Bundler::GemfileNotFound
 ENV['BUNDLE_GEMFILE'] = rails_root + '/Gemfile'

@@ -44,6 +44,8 @@ FrozenStringLiteralComment:
   Exclude:
     - 'test/**/*'
     - 'spec/**/*'
+    - 'lib/tasks/*'
+    - 'docker/**/*'
 
 # 代入、メソッド呼び出し、条件文の複雑さ
 Metrics/AbcSize:

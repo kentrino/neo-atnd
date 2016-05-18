@@ -1,15 +1,9 @@
-$app_name = ENV['APP_NAME']
-
 namespace :unicorn do
   desc 'Start unicorn for development env.'
-  task(:start) {
-    unless $app_name
-      puts 'Please direnv allow and specify APP_NAME first.'
-      return
-    end
+  task(:start) do
     config = Rails.root.join('config', 'unicorn.rb')
     sh "unicorn_rails -c #{config} -E development -D"
-  }
+  end
 
   desc 'Stop unicorn'
   task(:stop) { unicorn_signal :QUIT }
@@ -28,15 +22,13 @@ namespace :unicorn do
     sh "pstree '#{unicorn_pid}'"
   end
 
-  def unicorn_signal signal
+  def unicorn_signal(signal)
     Process.kill signal, unicorn_pid
   end
 
   def unicorn_pid
-    begin
-      File.read("/tmp/unicorn.#{$app_name}.pid").to_i
-    rescue Errno::ENOENT
-      raise "Unicorn doesn't seem to be running"
-    end
+    File.read('/tmp/unicorn.pid').to_i
+  rescue Errno::ENOENT
+    raise "Unicorn doesn't seem to be running"
   end
 end

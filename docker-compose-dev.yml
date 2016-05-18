@@ -1,0 +1,35 @@
+version: '2'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+
+      # build args can be assigned like below
+      #  and you have to add ARG instructions to your Dockerfile
+      args:
+        GROUP_ID: "${GROUP_ID}"
+        USER_ID: "${USER_ID}"
+    volumes:
+      # TODO: change directory
+      - volume:/var/www/app
+    environment:
+      DB_HOST: "${LOCAL_DB_HOST}"
+      SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
+      DB_PASSWORD: "${LOCAL_DB_PASSWORD}"
+      DB_USERNAME: "${LOCAL_DB_USERNAME}"
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile-dev
+      args:
+        GROUP_ID: "${GROUP_ID}"
+        USER_ID: "${USER_ID}"
+    volumes:
+      # TODO: change directory
+      - volume:/volume
+    ports:
+      - "5000:80"
+volumes:
+  volume:
+    driver: local
