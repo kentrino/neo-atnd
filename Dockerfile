@@ -8,9 +8,9 @@ ENV BUILD_PACKAGES="ruby-dev build-base mysql-dev git" \
     RAILS_ENV=production \
     BUNDLE_GEMFILE=/var/www/app/Gemfile \
     RAILS_ROOT=/var/www/app \
-    GROUP_ID=55 \
-    APP_USER_ID=1055 \
-    NGINX_USER_ID=1060
+    GROUP_ID=110 \
+    APP_USER_ID=1100 \
+    NGINX_USER_ID=100
 
 RUN \
   mkdir /var/www && \
@@ -38,8 +38,6 @@ RUN \
   chmod -R go-rwx /var/www/app && \
 
   # log files
-  # socket file will get 777 by unicorn
-  # TODO: socket file should be changed to 770?
   chown -R nginx:nginx /var/www/app/log/nginx && \
   chmod -R u+rwx /var/www/app/log/nginx && \
 
