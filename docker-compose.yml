@@ -15,12 +15,14 @@ services:
       # required variables to run application correctly
       TWITTER_KEY: "${TWITTER_KEY}"
       TWITTER_SECRET: "${TWITTER_SECRET}"
+
+      RAILS_ENV: production
   nginx:
     image: kentrino/nginx
     volumes_from:
       - app
     ports:
-      - "5000:80"
+      - "80:80"
 volumes:
   html:
     driver: local
