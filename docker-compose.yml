@@ -6,11 +6,15 @@ services:
       - html:/var/www/html
       - run:/var/run
     environment:
-      APP_NAME: neo-atnd
+      # required variables to run container
       SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
       DB_HOST: "${DB_HOST}"
       DB_USERNAME: "${DB_USERNAME}"
       DB_PASSWORD: "${DB_PASSWORD}"
+
+      # required variables to run application correctly
+      TWITTER_KEY: "${TWITTER_KEY}"
+      TWITTER_SECRET: "${TWITTER_SECRET}"
   nginx:
     image: kentrino/nginx
     volumes_from:

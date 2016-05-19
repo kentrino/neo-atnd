@@ -1,25 +1,29 @@
+# TODO: FIX all
 FROM kentrino/neo-atnd
-
-ADD . /var/www/app
 
 ARG GROUP_ID
 ARG USER_ID
 
+ENV RAILS_ROOT=/var/www/app
+
 RUN addgroup nginx -g "$GROUP_ID" && \
-    adduser -D -H -G nginx -u $USER_ID app && \
-    chown -R app:nginx /var/www/app && \
-    chmod -R go-rwx /var/www/app && \
+    adduser -D -H -G nginx -u $USER_ID nginx && \
+    chown -R nginx:nginx $RAILS_ROOT && \
+    chmod -R go-rwx $RAILS_ROOT && \
 
     # log files
     # socket file will get 777 by unicorn
     # TODO: should be changed to 770?
-    chown app:nginx /var/www/app/log/nginx /var/www/app/tmp && \
-    chmod g+rwx /var/www/app/log/nginx /var/www/app/tmp && \
+    chown nginx:nginx $RAILS_ROOT/log/nginx $RAILS_ROOT/tmp && \
+    chmod g+rwx $RAILS_ROOT/log/nginx $RAILS_ROOT/tmp && \
 
     # public folder
-    chown -R app:nginx /var/www/app/public && \
-    chmod -R g+r /var/www/app/public
+    chown -R nginx:nginx $RAILS_ROOT/public && \
+    chmod -R g+r $RAILS_ROOT/public
+
+ADD . /var/www/app
 
 USER app
 
-ENTRYPOINT ["bundle", "exec", "unicorn", "-c", "./config/unicorn.rb"]
+ENTRYPOINT ["bundle", "exec"]
+CMD ["unicorn", "-c", "./config/unicorn.rb"]

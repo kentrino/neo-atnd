@@ -11,8 +11,8 @@ services:
         GROUP_ID: "${GROUP_ID}"
         USER_ID: "${USER_ID}"
     volumes:
-      # TODO: change directory
-      - volume:/var/www/app
+      - html:/var/www/html
+      - run:/var/run
     environment:
       SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
       DB_HOST: "${LOCAL_DB_HOST}"
@@ -20,7 +20,7 @@ services:
       DB_PASSWORD: "${LOCAL_DB_PASSWORD}"
   nginx:
     build:
-      context: ./docker/nginx
+      context: ./nginx
       dockerfile: Dockerfile-dev
       args:
         GROUP_ID: "${GROUP_ID}"
