@@ -18,7 +18,11 @@ services:
 
       RAILS_ENV: production
   nginx:
-    image: kentrino/nginx
+    build:
+      context: ./nginx
+      args:
+        SERVER_CRT: "${SERVER_CRT}"
+        SERVER_KEY: "${SERVER_KEY}"
     volumes_from:
       - app
     ports:
