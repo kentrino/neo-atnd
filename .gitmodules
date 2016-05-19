@@ -2,6 +2,6 @@
 	path = docker/nginx-base
 	url = https://github.com/kentrino/nginx-base.git
 
-[submodule "docker-nginx"]
-	path = docker/nginx
+[submodule "nginx"]
+	path = nginx
 	url = https://github.com/kentrino/docker-nginx.git

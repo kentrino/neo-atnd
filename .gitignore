@@ -32,9 +32,8 @@
 # coverage data
 coverage/
 
-# submodules
+# docker files
 docker/*
-!docker/nginx
 
 # assets
 public/assets/
