@@ -3,8 +3,8 @@ services:
   app:
     image: kentrino/neo-atnd
     volumes:
-      # TODO: change directory
-      - volume:/var/www/app
+      - html:/var/www/html
+      - run:/var/run
     environment:
       APP_NAME: neo-atnd
       SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
@@ -12,12 +12,13 @@ services:
       DB_USERNAME: "${DB_USERNAME}"
       DB_PASSWORD: "${DB_PASSWORD}"
   nginx:
-    build:
-      context: ./docker/nginx
+    image: kentrino/nginx
     volumes_from:
       - app
     ports:
       - "5000:80"
 volumes:
-  volume:
+  html:
+    driver: local
+  run:
     driver: local

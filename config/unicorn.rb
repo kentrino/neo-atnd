@@ -8,8 +8,8 @@ timeout 15
 # Suppress down time when reload
 preload_app true
 
-listen File.expand_path('../../tmp/unicorn.sock', __FILE__)
-pid File.expand_path('../../tmp/unicorn.pid', __FILE__)
+listen File.expand_path('/var/run/unicorn.sock', __FILE__)
+pid File.expand_path('/var/run/unicorn.pid', __FILE__)
 
 before_fork do |server, worker|
   old_pid = "#{server.config[:pid]}.oldbin"

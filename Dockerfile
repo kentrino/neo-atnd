@@ -30,6 +30,10 @@ RUN \
   cd /var/www/app && \
   rake assets:precompile && \
 
+  # cppy static files
+  mkdir /var/www/html && \
+  cp -R /var/www/app/public/* /var/www/html && \
+
   # security settings =====================================================
   addgroup nginx -g $GROUP_ID && \
   adduser -D -H -G nginx -u $APP_USER_ID app && \
@@ -37,17 +41,12 @@ RUN \
   chown -R app:nginx /var/www/app && \
   chmod -R go-rwx /var/www/app && \
 
-  # log files
-  chown -R nginx:nginx /var/www/app/log/nginx && \
-  chmod -R u+rwx /var/www/app/log/nginx && \
-
   # socket file
-  chown -R nginx:nginx /var/www/app/tmp && \
-  chmod -R ug+rwx /var/www/app/tmp && \
+  chown app:nginx /var/run && \
 
   # public folder
-  chown -R nginx:nginx /var/www/app/public && \
-  chmod -R g+r /var/www/app/public && \
+  chown nginx:nginx /var/www && \
+  chown -R nginx:nginx /var/www/html && \
 
   # cleanup ===============================================================
   # mysql
@@ -62,4 +61,5 @@ RUN \
 USER app
 WORKDIR /var/www/app
 
-ENTRYPOINT ["bundle", "exec", "unicorn", "-c", "./config/unicorn.rb"]
+ENTRYPOINT ["bundle", "exec"]
+CMD ["unicorn", "-c", "./config/unicorn.rb"]
