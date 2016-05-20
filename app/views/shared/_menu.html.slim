@@ -1,8 +1,9 @@
 nav#menu[class='navbar navbar-default navbar-fixed-top']
   div.navbar-header Ultra Atnd
   - if logged_in?
+    = link_to 'New Event', new_event_path
 
-    span = "login as #{current_user.name} "
+    span = " login as #{current_user.name} "
     = link_to 'log-out', logout_path
   - else
     = link_to 'log-in with Twitter', '/auth/twitter'
