@@ -78,7 +78,7 @@ RSpec.describe '/events', type: :feature do
     # オーナーログイン状態
     context 'logged-in' do
       before do
-        login! event.user
+        login!(event.user)
         visit event_path event
       end
 
@@ -102,9 +102,9 @@ RSpec.describe '/events', type: :feature do
         end
 
         # 破棄するとイベント一覧ページに移動する
-        it { current_path.should eq events_path }
         it 'should not have deleted event' do
           should_not have_content event.description
+          expect(page).to have_current_path events_path
         end
       end
 
@@ -118,11 +118,12 @@ RSpec.describe '/events', type: :feature do
           context 'click Attend' do
             # 参加をおすと
             before do
+              login!(event.user)
               click_link('Attend')
             end
 
             # イベントパスに移動し
-            it { current_path.should eq event_path(event) }
+            it { expect(page).to have_current_path event_path(event) }
             it { find('#attendance').should have_content event.user.name }
             it { find('#absence').should_not have_content event.user.name }
 
