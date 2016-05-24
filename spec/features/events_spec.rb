@@ -15,7 +15,6 @@ RSpec.describe '/events', type: :feature do
     # イベント詳細表示用のリンクが有る
     it { should have_link('Show', event_path(events.sample)) }
 
-
     # 詳細リンクをクリックすると
     context 'click show link' do
       before do
@@ -157,15 +156,18 @@ RSpec.describe '/events', type: :feature do
 
         # すでに参加しているイベントは
         context 'already attended' do
+          let(:event) { create :event }
           let!(:attended) { create :attendee, event: event, user: event.user }
 
           before do
+            login!(event.user)
             # イベントパスに移動し
             visit event_path event
           end
 
           # 欠席用リンクがある
-          it { should have_link('Absent', absent_event_path(event)) }
+          it { expect(page).to have_content 'azzza'
+            expect(page).to have_link('Absent', absent_event_path(event)) }
         end
       end
     end

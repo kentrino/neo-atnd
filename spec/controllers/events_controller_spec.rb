@@ -5,7 +5,6 @@ def event_params(event)
     title: event.title,
     capacity: event.capacity,
     location: event.location,
-    owner: event.owner,
     description: event.description
   }
 end
@@ -13,21 +12,19 @@ end
 RSpec.describe EventsController, type: :controller do
   render_views
 
-  let(:event) do
-    create :event
-  end
-
   describe 'index' do
     it 'should be rendered correctly' do
+      events = create_list :event, 20
       get :index
-      response.body.should match events[1].title
-      response.body.should match events[EVENT_MAX].title
+      response.body.should match events[0].title
+      response.body.should match events[19].title
     end
   end
 
   describe 'new' do
     before do
-      login! users[1]
+      user = create :user
+      login! user
     end
 
     it 'should be rendered correctly' do
@@ -37,19 +34,24 @@ RSpec.describe EventsController, type: :controller do
   end
 
   describe 'edit' do
+    let(:user) { create :user }
+    let(:event) { create :event, owner_id: user.id }
     before do
-      login! users[1]
+      login! user
     end
 
     it 'should be rendered correctly' do
-      get :edit, id: 1
+
+      get :edit, id: event.id
       response.body.should match 'updateButton'
     end
   end
 
   describe 'create' do
+    let(:user) { create :user }
+    let(:event) { create :event, owner_id: user.id }
     before do
-      login! users[1]
+      login! user
     end
 
     context 'valid event params' do
@@ -73,8 +75,10 @@ RSpec.describe EventsController, type: :controller do
   end
 
   describe 'update' do
+    let(:user) { create :user }
+    let(:event) { create :event, owner_id: user.id }
     before do
-      login! users[1]
+      login! user
     end
 
     context 'valid input' do
@@ -96,8 +100,10 @@ RSpec.describe EventsController, type: :controller do
   end
 
   describe 'destroy' do
+    let(:user) { create :user }
+    let(:event) { create :event, owner_id: user.id }
     before do
-      login! users[1]
+      login! user
     end
 
     context 'valid destroy' do
@@ -117,10 +123,10 @@ RSpec.describe EventsController, type: :controller do
   end
 
   describe 'authenticate_owner!' do
-    let(:owner_id) { 1 }
-    let(:invalid_owner_id) { 2 }
 
-    let(:event) { create :event, owner_id: owner_id }
+    let(:user) { create :user }
+    let(:event) { create :event, owner_id: user.id }
+    let(:invalid_user) { create :user }
 
     controller do
       def show; end
@@ -136,7 +142,7 @@ RSpec.describe EventsController, type: :controller do
 
     context 'invalid owener id' do
       it 'returns' do
-        session[:user_id] = invalid_owner_id
+        session[:user_id] = invalid_user.id
         get :show, id: event.id
         response.should redirect_to event_path(event)
       end
@@ -144,7 +150,7 @@ RSpec.describe EventsController, type: :controller do
 
     context 'valid owener id' do
       it 'returns' do
-        session[:user_id] = owner_id
+        session[:user_id] = user.id
         get :show, id: event.id
         response.status.should eq 200
       end
